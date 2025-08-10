@@ -1,0 +1,22 @@
+.back {
+  position: absolute;
+  text-decoration: none;
+  background-color: #55a3f0;
+  padding: 10px 30px;
+  right: 5rem;
+  top: 5rem;
+  font-size: 20px;
+  color: #fff;
+  border-radius: 10px;
+  font-weight: 400;
+  cursor: pointer;
+}
+.back:hover{
+    background-color: #1b85f0;
+}
+img {
+    margin-right: -9rem;
+    height: 790px;
+    width: 97rem;
+}
+
