@@ -7,8 +7,8 @@ function Search() {
         type="text"
         placeholder="جست و جو..."
         style={{
-          width: "90%",
-          marginRight: "20px",
+          width: "80%",
+          marginRight: "134px",
           marginTop: "20px",
           height: "40px",
           border: "1px solid #E4E4E4",
