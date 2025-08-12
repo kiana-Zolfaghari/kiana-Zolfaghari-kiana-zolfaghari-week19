@@ -3,9 +3,11 @@ import Products from "./pages/Products";
 import PegeNotfound from "./pages/PageNotfound"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
+import { ProductProvider } from "./context/userContext";
 function App() {
   return (
     <>
+    <ProductProvider>
       <Routes>
         <Route path="/" element={<Navigate  to="/login" />} />
         <Route path="login" element={<Login />} />
@@ -13,6 +15,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<PegeNotfound />} />
       </Routes>
+      </ProductProvider>
     </>
   );
 }

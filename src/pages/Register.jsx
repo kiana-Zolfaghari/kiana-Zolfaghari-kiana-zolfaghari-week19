@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import styles from "./register.module.css";
 import { IoLogoFirebase } from "react-icons/io5";
 
@@ -10,7 +10,7 @@ function Register() {
   const [password, setPassword] = useState("");
   const [enterPasswordAgain, setEnterPasswordAgain] = useState("");
   const [res, setRes] = useState("");
-  
+  const Navigate = useNavigate();
 
   const registerHandeler = () => {
     if (password !== enterPasswordAgain) return;
@@ -21,11 +21,12 @@ function Register() {
         password: password,
       })
       .then((res) => setRes(res.message));
+    Navigate("/login");
   };
 
   return (
     <>
-    {!!res && <h1>{res}</h1>}
+      {!!res && <h1>{res}</h1>}
       <h1 className={styles.p}>به سایت ما خوش آمدین</h1>
       <p className={styles.p}> ثبت نام در سایت</p>
       <div className={styles.container}>

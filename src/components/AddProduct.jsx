@@ -1,41 +1,54 @@
-import {  useState } from "react";
+import { useContext } from "react";
 import styles from "./AddProduct.module.css";
 import api from "../service/config";
-
+import { ProductContext } from "../context/userContext";
 
 function AddProduct({ setShowAddDialog, setRefreshList }) {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
- 
-
+  const {
+    name,
+    setName,
+    price,
+    setPrice,
+    quantity,
+    setQuantity,
+    isEdit,
+    setIsEdit,
+    id,
+  } = useContext(ProductContext);
 
   const addProductHandler = () => {
     api
-      .post(
-        "/products",
-        {
-          name: name,
-          price: price,
-          quantity: quantity,
-        },
-
-      )
+      .post("/products", {
+        name: name,
+        price: price,
+        quantity: quantity,
+      })
       .then((res) => {
-        res.data,
-       setRefreshList(true)
-        setShowAddDialog(false)
+        res.data, setRefreshList(true);
+        setShowAddDialog(false);
       })
       .catch((err) => {
         console.error(err);
       });
   };
 
+  const editHandeler = (id) => {
+    api
+      .put(`products/${id}`, {
+        name: name,
+        price: price,
+        quantity: quantity,
+      })
+      .then((res) => {
+        res, setRefreshList(true);
+        setShowAddDialog(false);
+      });
+  };
+
   return (
-   
     <div className={styles.dialogOverlay}>
       <div className={styles.dialog}>
-        <h1>ایجاد محصول جدید</h1>
+        {isEdit ? <h1>ویرایش محصول </h1> : <h1>ایجاد محصول جدید</h1>}
         <div className={styles.inputGroup}>
           <label>نام کالا</label>
           <input
@@ -60,7 +73,11 @@ function AddProduct({ setShowAddDialog, setRefreshList }) {
           />
         </div>
         <div>
-          <button onClick={addProductHandler}>ایجاد محصول</button>
+          {isEdit ? (
+            <button onClick={() => editHandeler(id)}> ویرایش</button>
+          ) : (
+            <button onClick={addProductHandler}>ایجاد محصول</button>
+          )}
           <button onClick={() => setShowAddDialog(false)}>انصراف</button>
         </div>
       </div>

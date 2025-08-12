@@ -6,25 +6,30 @@ import { useNavigate } from "react-router-dom";
 import AddProduct from "../components/AddProduct";
 import ShowUsername from "../components/ShowUsername";
 import api from "../service/config";
+import Paginations from "../components/Pagination";
+
 
 function Products() {
   const navigate = useNavigate();
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [list, setList] = useState([]);
   const [refreshList, setRefreshList] = useState(false);
+  const [page,setPage]=useState()
+
+
   
 
   useEffect(() => {
-    api
-      .get("/products?page=1&limit=10")
-      .then((res) => setList(res.data.data))
-  }, [refreshList]);
+    api.get(`/products?page=${page}&limit=10`).then((res) => setList(res.data.data));
+  }, [refreshList,page]);
 
   const logoutHandeler = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("username");
     navigate("/login");
   };
+
+  
   return (
     <>
       <Search />
@@ -37,7 +42,12 @@ function Products() {
         افزودن محصول
       </button>
       <hr />
-      {showAddDialog && <AddProduct setShowAddDialog={setShowAddDialog}  setRefreshList={setRefreshList} />}
+      {showAddDialog && (
+        <AddProduct
+          setShowAddDialog={setShowAddDialog}
+          setRefreshList={setRefreshList}
+        />
+      )}
       <table>
         <thead>
           <tr>
@@ -49,11 +59,17 @@ function Products() {
           </tr>
         </thead>
         <tbody>
-    {list.map((product) => (
-      <List key={product.id} product={product}  setRefreshList={setRefreshList}/>
-    ))}
-    </tbody>
+          {list.map((product) => (
+            <List
+              key={product.id}
+              product={product}
+              setRefreshList={setRefreshList}
+              setShowAddDialog={setShowAddDialog}
+            />
+          ))}
+        </tbody>
       </table>
+      <Paginations  setPage={setPage}/>
     </>
   );
 }
