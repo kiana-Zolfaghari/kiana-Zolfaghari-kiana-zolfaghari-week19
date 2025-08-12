@@ -16,7 +16,7 @@ function Products() {
   useEffect(() => {
     api
       .get("/products?page=1&limit=10")
-      .then((res) => setList(res.data))
+      .then((res) => setList(res.data.data))
       
   }, []);
 
@@ -49,7 +49,7 @@ function Products() {
           </tr>
         </thead>
         <tbody>
-          <List />
+          {list.map((product)=> <List  key={product.id} product={product} />)}
         </tbody>
       </table>
     </>
