@@ -3,7 +3,7 @@ import styles from "./AddProduct.module.css";
 import api from "../service/config";
 
 
-function AddProduct({ setShowAddDialog }) {
+function AddProduct({ setShowAddDialog, setRefreshList }) {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -19,15 +19,12 @@ function AddProduct({ setShowAddDialog }) {
           price: price,
           quantity: quantity,
         },
-        {
-          headers: {
-            Authorization:
-              "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjE3NTQ4NDM3MjI3NDQiLCJ1c2VybmFtZSI6ImtpbmlrYXciLCJpYXQiOjE3NTQ5MzEzMTIsImV4cCI6MTc1NDkzNDkxMn0.c0dHDgDM_1CWA6DyAE5xiZV2zImyDKucT25zBlmK23M",
-          },
-        }
+
       )
       .then((res) => {
-        console.log(res.data);
+        res.data,
+       setRefreshList(true)
+        setShowAddDialog(false)
       })
       .catch((err) => {
         console.error(err);

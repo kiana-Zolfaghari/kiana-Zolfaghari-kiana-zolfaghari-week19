@@ -11,14 +11,14 @@ function Products() {
   const navigate = useNavigate();
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [list, setList] = useState([]);
-  console.log(list)
+  const [refreshList, setRefreshList] = useState(false);
+  
 
   useEffect(() => {
     api
       .get("/products?page=1&limit=10")
       .then((res) => setList(res.data.data))
-      
-  }, []);
+  }, [refreshList]);
 
   const logoutHandeler = () => {
     localStorage.removeItem("token");
@@ -37,7 +37,7 @@ function Products() {
         افزودن محصول
       </button>
       <hr />
-      {showAddDialog && <AddProduct setShowAddDialog={setShowAddDialog} />}
+      {showAddDialog && <AddProduct setShowAddDialog={setShowAddDialog}  setRefreshList={setRefreshList} />}
       <table>
         <thead>
           <tr>
@@ -49,8 +49,10 @@ function Products() {
           </tr>
         </thead>
         <tbody>
-          {list.map((product)=> <List  key={product.id} product={product} />)}
-        </tbody>
+    {list.map((product) => (
+      <List key={product.id} product={product}  setRefreshList={setRefreshList}/>
+    ))}
+    </tbody>
       </table>
     </>
   );

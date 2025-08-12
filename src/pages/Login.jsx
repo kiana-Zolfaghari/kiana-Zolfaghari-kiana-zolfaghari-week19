@@ -25,7 +25,7 @@ function Login() {
           setAllert("Invalid username or password")
           return;
         }
-        localStorage.setItem("token", `${res.token}`);
+        localStorage.setItem("token", `${res.data.token}`);
         navigate("/products");
       });
       localStorage.setItem("username", `${username}`);
