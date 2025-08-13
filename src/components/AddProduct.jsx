@@ -26,6 +26,7 @@ function AddProduct({ setShowAddDialog, setRefreshList }) {
       .then((res) => {
         res.data, setRefreshList(true);
         setShowAddDialog(false);
+        setName(""), setPrice(""), setQuantity("");
       })
       .catch((err) => {
         console.error(err);
@@ -42,6 +43,8 @@ function AddProduct({ setShowAddDialog, setRefreshList }) {
       .then((res) => {
         res, setRefreshList(true);
         setShowAddDialog(false);
+        setIsEdit(false);
+        setName(""), setPrice(""), setQuantity("");
       });
   };
 

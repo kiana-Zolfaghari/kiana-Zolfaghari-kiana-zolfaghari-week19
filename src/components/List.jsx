@@ -6,21 +6,21 @@ import { useState } from "react";
 import image from "../assets/Close.png";
 import { useContext } from "react";
 import { ProductContext } from "../context/userContext";
-
+import { FiLoader } from "react-icons/fi";
 
 function List({ product, setRefreshList, setShowAddDialog }) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   const {
-    name,
     setName,
-    price,
     setPrice,
-    quantity,
     setQuantity,
     setIsEdit,
-    setId
+    setId,
+    setIds,
   } = useContext(ProductContext);
+
+
 
   const deleteHandeler = (id) => {
     api.delete(`/products/${id}`).then((res) => res);
@@ -30,23 +30,40 @@ function List({ product, setRefreshList, setShowAddDialog }) {
 
   const showEdit = (id) => {
     setShowAddDialog(true);
-    setIsEdit(true)
-    api.get(`/products/${id}`).then(res=>{
+    setIsEdit(true);
+    api.get(`/products/${id}`).then((res) => {
       setName(res.data.name),
-      setPrice(res.data.price),
-      setQuantity(res.data.quantity)
-      setId(id)
-    })
+        setPrice(res.data.price),
+        setQuantity(res.data.quantity);
+      setId(id);
+    });
   };
+
 
   return (
     <tr>
-      <td>{product.name}</td>
+      <td>
+        <input
+          type="checkbox"
+          className={styles.checkbox}
+          onChange={(e) => {
+            const checked = e.target.checked;
+            setIds((ids) => {
+              if (checked) {
+                return [...ids, product.id];
+              } else {
+                return ids.filter((id) => id !== product.id);
+              }
+            });
+          }}
+        />
+        {product.name}
+      </td>
       <td>{product.quantity}</td>
       <td>{product.price}</td>
       <td>{product.id}</td>
       <td style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
-        <FiEdit className={styles.edit} onClick={()=>showEdit(product.id)} />
+        <FiEdit className={styles.edit} onClick={() => showEdit(product.id)} />
         <MdDeleteOutline
           className={styles.search}
           onClick={() => setShowDeleteDialog(true)}

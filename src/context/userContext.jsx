@@ -8,6 +8,7 @@ export function ProductProvider({ children }) {
   const [quantity, setQuantity] = useState("");
   const [isEdit, setIsEdit] = useState(false);
   const [id, setId] = useState(null);
+  const [ids,setIds]=useState([])
 
   return (
     <ProductContext.Provider
@@ -22,6 +23,8 @@ export function ProductProvider({ children }) {
         setIsEdit,
         id,
         setId,
+        ids,
+        setIds
       }}
     >
       {children}

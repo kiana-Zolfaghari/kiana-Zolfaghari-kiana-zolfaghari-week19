@@ -7,21 +7,23 @@ import AddProduct from "../components/AddProduct";
 import ShowUsername from "../components/ShowUsername";
 import api from "../service/config";
 import Paginations from "../components/Pagination";
-
+import { useContext } from "react";
+import { ProductContext } from "../context/userContext";
 
 function Products() {
   const navigate = useNavigate();
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [list, setList] = useState([]);
   const [refreshList, setRefreshList] = useState(false);
-  const [page,setPage]=useState()
+  const [page, setPage] = useState(1);
 
-
-  
+  const { ids } = useContext(ProductContext);
 
   useEffect(() => {
-    api.get(`/products?page=${page}&limit=10`).then((res) => setList(res.data.data));
-  }, [refreshList,page]);
+    api
+      .get(`/products?page=${page}&limit=10`)
+      .then((res) => setList(res.data.data));
+  }, [refreshList, page]);
 
   const logoutHandeler = () => {
     localStorage.removeItem("token");
@@ -29,10 +31,18 @@ function Products() {
     navigate("/login");
   };
 
-  
+  const deleteGroupHandeler = () => {
+    api.delete("/products", {
+      data: { ids: ids }
+    }).then((res) => {
+      res,
+      setRefreshList(true)
+    });
+  };
+
   return (
     <>
-      <Search />
+      <Search setList={setList} />
       <ShowUsername />
       <button onClick={logoutHandeler} className={styles.logoutBtn}>
         خروج
@@ -42,6 +52,7 @@ function Products() {
         افزودن محصول
       </button>
       <hr />
+      {ids.length>0? <button  className={styles.deleteGroup} onClick={deleteGroupHandeler}>حذف گزینه های انتخاب شده</button> : null}
       {showAddDialog && (
         <AddProduct
           setShowAddDialog={setShowAddDialog}
@@ -58,18 +69,29 @@ function Products() {
             <th>عملگرها</th>
           </tr>
         </thead>
-        <tbody>
-          {list.map((product) => (
-            <List
-              key={product.id}
-              product={product}
-              setRefreshList={setRefreshList}
-              setShowAddDialog={setShowAddDialog}
-            />
-          ))}
-        </tbody>
+        {list.length > 0 ? (
+          <tbody>
+            {list.map((product) => (
+              <List
+                key={product.id}
+                product={product}
+                setRefreshList={setRefreshList}
+                setShowAddDialog={setShowAddDialog}
+               
+              />
+            ))}
+          </tbody>
+        ) : (
+          <tfoot>
+            <tr>
+              <td className={styles.noMoreProduct} colSpan="5">
+                هیچ محصولی موجود نیست
+              </td>
+            </tr>
+          </tfoot>
+        )}
       </table>
-      <Paginations  setPage={setPage}/>
+      <Paginations setPage={setPage} />
     </>
   );
 }
