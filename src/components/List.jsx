@@ -6,26 +6,28 @@ import { useState } from "react";
 import image from "../assets/Close.png";
 import { useContext } from "react";
 import { ProductContext } from "../context/userContext";
+import { NotificationContext } from "../context/NotificationContext";
 import { FiLoader } from "react-icons/fi";
 
-function List({ product, setRefreshList, setShowAddDialog }) {
+function List({ product, setRefreshList, setShowAddDialog, page, index }) {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const { notification } = useContext(NotificationContext);
 
-  const {
-    setName,
-    setPrice,
-    setQuantity,
-    setIsEdit,
-    setId,
-    setIds,
-  } = useContext(ProductContext);
-
-
+  const { setName, setPrice, setQuantity, setIsEdit, setId, setIds } =
+    useContext(ProductContext);
 
   const deleteHandeler = (id) => {
-    api.delete(`/products/${id}`).then((res) => res);
-    setRefreshList(true);
-    setShowDeleteDialog(false);
+    api
+      .delete(`/products/${id}`)
+      .then(() => {
+        setRefreshList((refreshList) => !refreshList);
+        setShowDeleteDialog(false);
+        notification("success", "محصول با موفقیت حذف شد");
+      })
+      .catch((err) => {
+        err, notification("err", "مشکلی پیش آمده");
+        setShowDeleteDialog(false);
+      });
   };
 
   const showEdit = (id) => {
@@ -39,9 +41,9 @@ function List({ product, setRefreshList, setShowAddDialog }) {
     });
   };
 
-
   return (
     <tr>
+      <td>{index + 1 + (page - 1) * 10}</td>
       <td>
         <input
           type="checkbox"
@@ -57,23 +59,45 @@ function List({ product, setRefreshList, setShowAddDialog }) {
             });
           }}
         />
-        {product.name}
+        {product.name === "" ? (
+          <p className={styles.noData}>ثبت نشده</p>
+        ) : (
+          product.name
+        )}
       </td>
-      <td>{product.quantity}</td>
-      <td>{product.price}</td>
-      <td>{product.id}</td>
-      <td style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
-        <FiEdit className={styles.edit} onClick={() => showEdit(product.id)} />
-        <MdDeleteOutline
-          className={styles.search}
-          onClick={() => setShowDeleteDialog(true)}
-        />
+      <td>
+        {product.quantity === "" ? (
+          <p className={styles.noData}>ثبت نشده</p>
+        ) : (
+          product.quantity
+        )}
+      </td>
+      <td>
+        {product.price === "" ? (
+          <p className={styles.noData}>ثبت نشده</p>
+        ) : (
+          product.price
+        )}
+      </td>
+      <td className={styles.id}>{product.id}</td>
+      <td>
+        <div style={{ display: "flex", justifyContent: "center", gap: "10px" }}>
+          <FiEdit
+            className={styles.edit}
+            onClick={() => showEdit(product.id)}
+          />
+          <MdDeleteOutline
+            className={styles.delete}
+            onClick={() => setShowDeleteDialog(true)}
+          />
+        </div>
         {showDeleteDialog && (
           <div className={styles.dialogOverlay}>
             <div className={styles.dialog}>
               <div className={styles.image}>
                 <img src={image} alt="image" className={styles.image} />
               </div>
+              <p>آیا از حذف این محصول مطمئنید؟</p>
               <button onClick={() => deleteHandeler(product.id)}>حذف</button>
               <button onClick={() => setShowDeleteDialog(false)}>انصراف</button>
             </div>

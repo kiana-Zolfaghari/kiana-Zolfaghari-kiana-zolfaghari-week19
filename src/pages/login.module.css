@@ -60,4 +60,41 @@
 .link:hover {
     color: #077bef;
 }
-
+.alertError{
+    position: absolute;
+    background-color: rgb(255, 95, 95);
+    padding: 1rem 1rem;
+    width: 15%;
+    text-align: center;
+    border-radius: 10px;
+    color: #fff;
+    top: 5rem;
+  }
+  .massage{
+    color: red;
+    font-weight: lighter;
+    margin-top: 2.2px;
+    margin-bottom: -14px;
+    margin-right: -9rem;
+    font-size: 12px;
+  }
+  .FaEye1 {
+    position: absolute;
+    color: #868686;
+    right: 52rem;
+    top: 30rem;
+    cursor: pointer;
+  }
+  .FaEyeSlash1 {
+    position: absolute;
+    color: #868686;
+    right: 52rem;
+    top: 30rem;
+    cursor: pointer;
+  }
+  .FaEye1:hover{
+    color: #077bef;
+  }
+  .FaEyeSlash1:hover{
+    color: #077bef;
+  }

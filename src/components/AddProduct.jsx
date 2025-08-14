@@ -1,7 +1,8 @@
+import { ProductContext } from "../context/userContext";
+import { NotificationContext } from "../context/NotificationContext";
 import { useContext } from "react";
 import styles from "./AddProduct.module.css";
 import api from "../service/config";
-import { ProductContext } from "../context/userContext";
 
 function AddProduct({ setShowAddDialog, setRefreshList }) {
   const {
@@ -16,6 +17,8 @@ function AddProduct({ setShowAddDialog, setRefreshList }) {
     id,
   } = useContext(ProductContext);
 
+  const { notification } = useContext(NotificationContext);
+
   const addProductHandler = () => {
     api
       .post("/products", {
@@ -24,12 +27,13 @@ function AddProduct({ setShowAddDialog, setRefreshList }) {
         quantity: quantity,
       })
       .then((res) => {
-        res.data, setRefreshList(true);
+        res.data, setRefreshList((refreshList) => !refreshList);
         setShowAddDialog(false);
         setName(""), setPrice(""), setQuantity("");
+        notification("success", "محصول با موفقیت ثبت شد");
       })
       .catch((err) => {
-        console.error(err);
+        err, notification("err", "مشکلی پیش آمده");
       });
   };
 
@@ -41,10 +45,14 @@ function AddProduct({ setShowAddDialog, setRefreshList }) {
         quantity: quantity,
       })
       .then((res) => {
-        res, setRefreshList(true);
+        res, setRefreshList((refreshList) => !refreshList);
         setShowAddDialog(false);
         setIsEdit(false);
         setName(""), setPrice(""), setQuantity("");
+        notification("success", " محصول با موفقیت ویرایش شد");
+      })
+      .catch((err) => {
+        err, notification("err", "مشکلی پیش آمده");
       });
   };
 
@@ -81,7 +89,17 @@ function AddProduct({ setShowAddDialog, setRefreshList }) {
           ) : (
             <button onClick={addProductHandler}>ایجاد محصول</button>
           )}
-          <button onClick={() => setShowAddDialog(false)}>انصراف</button>
+          <button
+            onClick={() => {
+              setShowAddDialog(false),
+                setIsEdit(false),
+                setName(""),
+                setPrice(""),
+                setQuantity("");
+            }}
+          >
+            انصراف
+          </button>
         </div>
       </div>
     </div>

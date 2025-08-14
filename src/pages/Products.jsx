@@ -9,20 +9,36 @@ import api from "../service/config";
 import Paginations from "../components/Pagination";
 import { useContext } from "react";
 import { ProductContext } from "../context/userContext";
+import { NotificationContext } from "../context/NotificationContext";
+import GroupDelete1 from "../components/GroupDelete";
 
 function Products() {
   const navigate = useNavigate();
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showGroupDeleteDialog, setShowGroupDeleteDialog] = useState(false);
   const [list, setList] = useState([]);
   const [refreshList, setRefreshList] = useState(false);
   const [page, setPage] = useState(1);
-
   const { ids } = useContext(ProductContext);
+  const { allert, alertType, notification } = useContext(NotificationContext);
+
+  useEffect(() => {
+    if (allert) {
+      const timer = setTimeout(() => {
+        notification("", "");
+      }, 2000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [allert]);
 
   useEffect(() => {
     api
       .get(`/products?page=${page}&limit=10`)
-      .then((res) => setList(res.data.data));
+      .then((res) => setList(res.data.data))
+      .catch((err) => {
+        err, setList([]);
+      });
   }, [refreshList, page]);
 
   const logoutHandeler = () => {
@@ -31,19 +47,19 @@ function Products() {
     navigate("/login");
   };
 
-  const deleteGroupHandeler = () => {
-    api.delete("/products", {
-      data: { ids: ids }
-    }).then((res) => {
-      res,
-      setRefreshList(true)
-    });
-  };
-
   return (
     <>
       <Search setList={setList} />
       <ShowUsername />
+      {allert && (
+        <p
+          className={
+            alertType === "success" ? styles.alertSuccess : styles.alertError
+          }
+        >
+          {allert}
+        </p>
+      )}
       <button onClick={logoutHandeler} className={styles.logoutBtn}>
         خروج
       </button>
@@ -52,16 +68,30 @@ function Products() {
         افزودن محصول
       </button>
       <hr />
-      {ids.length>0? <button  className={styles.deleteGroup} onClick={deleteGroupHandeler}>حذف گزینه های انتخاب شده</button> : null}
+      {ids.length > 0 ? (
+        <button
+          className={styles.deleteGroup}
+          onClick={() => setShowGroupDeleteDialog(true)}
+        >
+          حذف گزینه های انتخاب شده
+        </button>
+      ) : null}
+      {showGroupDeleteDialog && (
+        <GroupDelete1
+          setShowGroupDeleteDialog={setShowGroupDeleteDialog}
+          setRefreshList={setRefreshList}
+        />
+      )}
       {showAddDialog && (
         <AddProduct
           setShowAddDialog={setShowAddDialog}
           setRefreshList={setRefreshList}
         />
       )}
-      <table>
+      <table className={ids.length > 0 ? `${styles.tableWithButton}` : ""}>
         <thead>
           <tr>
+            <th>ردیف</th>
             <th>نام کالا</th>
             <th>موجودی</th>
             <th>قیمت</th>
@@ -71,13 +101,14 @@ function Products() {
         </thead>
         {list.length > 0 ? (
           <tbody>
-            {list.map((product) => (
+            {list.map((product, index) => (
               <List
                 key={product.id}
                 product={product}
+                index={index}
                 setRefreshList={setRefreshList}
                 setShowAddDialog={setShowAddDialog}
-               
+                page={page}
               />
             ))}
           </tbody>

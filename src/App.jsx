@@ -4,9 +4,11 @@ import PegeNotfound from "./pages/PageNotfound"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import { ProductProvider } from "./context/userContext";
+import { NotificationProvider } from "./context/NotificationContext";
 function App() {
   return (
     <>
+    <NotificationProvider>
     <ProductProvider>
       <Routes>
         <Route path="/" element={<Navigate  to="/login" />} />
@@ -16,6 +18,7 @@ function App() {
         <Route path="*" element={<PegeNotfound />} />
       </Routes>
       </ProductProvider>
+      </NotificationProvider>
     </>
   );
 }

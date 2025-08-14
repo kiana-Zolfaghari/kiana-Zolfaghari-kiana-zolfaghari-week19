@@ -10,7 +10,7 @@ function Paginations({ setPage }) {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "2rem",
+        margin: "2rem",
       }}
     >
       <Pagination
