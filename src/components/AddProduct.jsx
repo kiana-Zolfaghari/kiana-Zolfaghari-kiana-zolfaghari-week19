@@ -70,14 +70,14 @@ function AddProduct({ setShowAddDialog, setRefreshList }) {
           />
           <label>تعداد موجودی</label>
           <input
-            type="text"
+            type="number"
             value={quantity}
             placeholder="تعداد"
             onChange={(e) => setQuantity(e.target.value)}
           />
           <label>قیمت</label>
           <input
-            type="text"
+            type="number"
             value={price}
             placeholder=" قیمت"
             onChange={(e) => setPrice(e.target.value)}

@@ -76,7 +76,7 @@ function List({ product, setRefreshList, setShowAddDialog, page, index }) {
         {product.price === "" ? (
           <p className={styles.noData}>ثبت نشده</p>
         ) : (
-          product.price
+          Number(product.price).toLocaleString()
         )}
       </td>
       <td className={styles.id}>{product.id}</td>
