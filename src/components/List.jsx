@@ -98,8 +98,8 @@ function List({ product, setRefreshList, setShowAddDialog, page, index }) {
                 <img src={image} alt="image" className={styles.image} />
               </div>
               <p>آیا از حذف این محصول مطمئنید؟</p>
-              <button onClick={() => deleteHandeler(product.id)}>حذف</button>
-              <button onClick={() => setShowDeleteDialog(false)}>انصراف</button>
+              <button onClick={() => deleteHandeler(product.id)} className={styles.deleteDialog}>حذف</button>
+              <button onClick={() => setShowDeleteDialog(false)} className={styles.cancel}>انصراف</button>
             </div>
           </div>
         )}

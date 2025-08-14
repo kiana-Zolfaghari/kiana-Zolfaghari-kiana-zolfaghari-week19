@@ -51,10 +51,8 @@
   .dialogOverlay button {
     border: none;
     width: 8rem;
-    height: 3rem;
+    height: 2rem;
     border-radius: 10px;
-    background-color: #55a3f0;
-    color: #ffffff;
     font-size: 15px;
     cursor: pointer;
     margin-right: 14px;
@@ -66,9 +64,24 @@
     margin-top: 3rem;
   }
   
-  .dialogOverlay button:hover {
-    background-color: #077bef;
+  .cancel{
+    background-color: #DFDFDF;
+    color:#282828CC;
   }
+  .deleteDialog{
+    background-color: #F43F5E;
+    color: #ffffff;
+  }
+  
+  .cancel:hover{
+    background-color: #b2b2b2;
+    color:#282828CC;
+  }
+  .deleteDialog:hover{
+    background-color: #f0183c;
+    color: #ffffff;
+  }
+  
   
   .image {
     width: 80px;

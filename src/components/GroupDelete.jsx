@@ -32,8 +32,8 @@ function GroupDelete1({ setShowGroupDeleteDialog, setRefreshList }) {
           <img src={image} alt="image" className={styles.image} />
         </div>
         <p>آیا از حذف محصولات انتخاب شده مطمئنید؟</p>
-        <button onClick={() => deleteGroupHandeler(ids)}>حذف</button>
-        <button onClick={() => setShowGroupDeleteDialog(false)}>انصراف</button>
+        <button onClick={() => deleteGroupHandeler(ids)} className={styles.deleteDialog}>حذف</button>
+        <button onClick={() => setShowGroupDeleteDialog(false)} className={styles.cancel}>انصراف</button>
       </div>
     </div>
   );
