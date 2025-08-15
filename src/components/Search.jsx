@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { RiSearchEyeLine } from "react-icons/ri";
+import { CiSearch } from "../../node_modules/react-icons/ci";
 import api from "../service/config";
-
+import styles from "./Search.module.css";
 function Search({ setList }) {
   const [value, setVlue] = useState("");
 
@@ -17,32 +17,10 @@ function Search({ setList }) {
         placeholder="جست و جو..."
         value={value}
         onChange={(e) => setVlue(e.target.value)}
-        style={{
-          width: "80%",
-          marginRight: "134px",
-          marginTop: "20px",
-          height: "40px",
-          border: "1px solid #E4E4E4",
-          borderRadius: "10px",
-          outline: "none",
-        }}
+        className={styles.input}
       />
       <span>
-        <RiSearchEyeLine
-          style={{
-            fontSize: "16px",
-            cursor: "pointer",
-            position: "absolute",
-            top: "1.35rem",
-            left: "13rem",
-            backgroundColor: "#55a3f0",
-            width: "4rem",
-            height: "2.5rem",
-            borderRadius: "10px",
-            color: "#fff",
-          }}
-          onClick={serachHandeler}
-        />
+        <CiSearch className={styles.icon} onClick={serachHandeler} />
       </span>
     </div>
   );

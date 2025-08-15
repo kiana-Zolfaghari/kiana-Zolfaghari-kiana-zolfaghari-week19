@@ -14,8 +14,8 @@
   background-color: #fff;
   align-items: center;
   justify-content: center;
-  width: 25%;
-  height: 500px;
+  width: 30%;
+  height: 456px;
   border-radius: 40px;
   margin-top: 4rem;
   border: 1px solid #e4e4e4;
@@ -29,14 +29,14 @@
   width: 80%;
   height: 2.5rem;
   margin-top: 20px;
-  padding-right: 2px;
+  padding-right: 10px;
 }
 .box button {
   border: none;
   font-size: 18px;
   outline: none;
   border-radius: 10px;
-  width: 18rem;
+  width: 80%;
   height: 2.5rem;
   margin-top: 20px;
   cursor: pointer;
@@ -75,30 +75,30 @@
 .FaEye1 {
   position: absolute;
   color: #868686;
-  right: 52rem;
-  top: 32.7rem;
+  right: 54rem;
+  top: 31.7rem;
   cursor: pointer;
 }
 
 .FaEye2 {
   position: absolute;
   color: #868686;
-  right: 52rem;
-  top: 36.7rem;
+  right: 54rem;
+  top: 35.5rem;
   cursor: pointer;
 }
 .FaEyeSlash1 {
   position: absolute;
   color: #868686;
-  right: 52rem;
-  top: 32.7rem;
+  right: 54rem;
+  top: 31.7rem;
   cursor: pointer;
 }
 .FaEyeSlash2 {
   position: absolute;
   color: #868686;
-  right: 52rem;
-  top: 36.7rem;
+  right: 54rem;
+  top: 35.5rem;
   cursor: pointer;
 }
 .FaEye1:hover {
